@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.smbms.dao.role.RoleMapper">
+
+	<select id="getRoleList" resultType="role">
+		select * from smbms_role
+	</select>
+	
+	<select id="getRoleById" resultType="role">
+		select * from smbms_role where id=#{id}
+	</select>
+	
+	
+	<insert id="add" parameterType="role">
+		insert into smbms_role (roleCode,roleName,createdBy,creationDate) 
+				values (#{roleCode},#{roleName},#{createdBy},#{creationDate})
+	</insert>
+	
+	<update id="modify" parameterType="role">
+	 	update smbms_role 
+		 <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+	 		<if test="roleCode != null">roleCode=#{roleCode},</if>
+			<if test="roleName != null">roleName=#{roleName},</if>
+			<if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+			<if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+		 </trim>
+	</update>
+	
+	<delete id="deleteRoleById" parameterType="Integer">
+		delete from smbms_role where id=#{id}
+	</delete>
+	
+	
+	<select id="roleCodeIsExist" resultType="int">
+		select count(*) as count from smbms_role where roleCode=#{roleCode}
+	</select>
+
+</mapper>
